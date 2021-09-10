@@ -11,6 +11,9 @@
     font-family: 'Montserrat', sans-serif;
     font-weight: 900;
     color: #fff;
+    display: flex;
+    height: 100%;
+    align-items: center;
 }
 
 
@@ -24,6 +27,7 @@
     border: none;
     background: none;
     margin-right: 3px;
+    cursor: pointer;
 }
 
 .navigation-btns {
@@ -32,7 +36,7 @@
     display: flex;
     align-items: center;
     justify-content: space-around;
-    width: 350px;
+    width: 500px;
 }
 
 .navigation-btns button {
@@ -46,4 +50,24 @@
     font-size: 0.8rem;
     cursor: pointer;
     outline: none;
+}
+
+.profile-picture {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    box-shadow: 0 0 0 3px #5927E9;
+    overflow: hidden;
+}
+
+.profile-picture img {
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+}
+
+.profile-name {
+    font-weight: 700;
+    margin-left: 10px;
+    font-size: 1rem;
 }

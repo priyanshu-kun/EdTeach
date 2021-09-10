@@ -1,20 +1,36 @@
-import React from 'react';
+import React,{useState} from 'react';
 import {FiDownload} from "react-icons/fi"
-import {AiFillGithub} from "react-icons/ai"
-import Internet from "../assets/internet.svg"
+import {Link} from "react-router-dom"
 import "./Navbar.css"
+import firebase from "../config/firebase.config";
 
-function Navbar({handleToogle}) {
+const auth = firebase.auth();
+function Navbar({handleToogle,handleDownloadCode,userData: {displayName,photoURL}}) {
+
+    function SignOut() {
+        return auth.currentUser && (
+          <button className="sign-out" onClick={() => {
+            auth.signOut()
+            window.location.reload()
+          }}>Sign Out</button>
+        )
+      }
+
     return (
         <div className="navbar">
             <div className="logo">
-               LIGHT 👋
+               <div className="profile-picture">
+                   <img src={photoURL} alt="profile" />
+                  
+               </div>
+              <p className="profile-name">{displayName}</p>
             </div>
             <div className="navigation">
-                <button><FiDownload style={{color: "#fff",fontSize: "1.3rem"}} /></button>
+                <button onClick={handleDownloadCode}><FiDownload style={{color: "#fff",fontSize: "1.3rem"}} /></button>
                 <div className="navigation-btns">
-                <button>HOST</button>
+                <button><Link style={{textDecoration: "none",color: "#fff"}} target="_blank" to="/Host">HOST</Link></button>
                 <button><a style={{textDecoration: "none",color: "#fff"}} target="_blank" href="https://daringfireball.net/projects/markdown/basics">GUIDE</a></button>
+                <SignOut />
                 <button onClick={handleToogle}>TOOGLE PREVIEW</button>
                 </div>
             </div>
