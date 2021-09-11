@@ -41,12 +41,14 @@ function Auth() {
   }, [user,loading])
 
   return (
-    <div className="auth-overlay">
-      <div className="auth-card">
-        <h1>Create a account</h1>
-        <SignIn />
-      </div>
+    loading ?<div class="spinner"></div> : (
+      <div className="auth-overlay">
+    <div className="auth-card">
+      <h1 style={{opacity: "0.3",fontSize: "1.6rem"}}>Create a account 👩‍🏫</h1>
+      <SignIn />
     </div>
+  </div>
+    )
   );
 }
 

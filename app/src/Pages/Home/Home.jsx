@@ -5,18 +5,19 @@ import remarkGfm from 'remark-gfm'
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter'
 import { docco } from "react-syntax-highlighter/dist/esm/styles/hljs";
 import downloadContent from '../../downloadContent';
-import {userSelector, useSelector} from "react-redux"
+import { userSelector, useSelector } from "react-redux"
 import showdown from "showdown"
+import firebase from "../../config/firebase.config"
 
 function Home(props) {
 
-  const {displayName,photoURL} = useSelector((state) => state.auth.user)
+  const { uid, displayName, photoURL } = useSelector((state) => state.auth.user)
   const [editorTitle, setEditorTitle] = useState("")
   const [editorContent, setEditorContent] = useState("")
   const [setContent, setSetContent] = useState("Nothing to preview🧐")
   const [tooglePreview, setTooglePreview] = useState(true)
+  const [saveState, setSaveState] = useState(true)
   const converter = new showdown.Converter()
-  console.log(editorContent)
   function handleEditorTitle(e) {
     setEditorTitle(e.target.value)
   }
@@ -31,6 +32,18 @@ function Home(props) {
   function handleEditorContent(e) {
     setEditorContent(e.target.value)
     setSetContent(e.target.value)
+
+    
+    const contentRef = firebase.database().ref("Content")
+    contentRef.on('value', snapshot => {
+      console.log(snapshot.val())
+      // const content = snapshot.val()
+      // if(content === null) {
+      //   return
+      // }
+      // const userDoc = content[Object.keys(content)[0]];
+      // if()
+    })
   }
 
 
@@ -40,16 +53,67 @@ function Home(props) {
 
   function handleDownloadCode() {
     if (editorTitle === "") {
-      return alert("must use title before download content")
+      return alert("Must use title before download content")
     }
     const html = converter.makeHtml(editorContent);
     downloadContent(html, editorTitle)
   }
 
+  function saveStuff() {
+    // if (!editorTitle || !editorContent) {
+    //   return;
+    // }
+    // const contentRef = firebase.database().ref("Content")
+    // contentRef.on('value', snapshot => {
+    //   const docs = snapshot.val()
+    //   // console.log(docs)
+    //   if (docs === null) {
+    //     const content = {
+    //       uid,
+    //       editorTitle,
+    //       editorContent
+    //     }
+    //     contentRef.push(content)
+    //   }
+    //   else {
+    //     // console.log("kaboom: ",docs)
+    //     let Docs = []
+    //     for(let id in docs) {
+    //       Docs.push(docs[id])
+    //     }
+    //     const isDocAlreadyThere = Docs.find(doc => doc.uid === uid)
+    //     // console.log(isDocAlreadyThere)
+    //     if(isDocAlreadyThere) {
+          
+    //     }
+    //     else {
+    //       const content = {
+    //         uid,
+    //         editorTitle,
+    //         editorContent
+    //       }
+    //       contentRef.push(content)
+    //     }
+
+        
+    //   }
+
+    // })
+
+  }
+
+  useEffect(() => {
+    const contentRef = firebase.database().ref("Content")
+    contentRef.on('value', snapshot => {
+      console.log(snapshot.val())
+    })
+  }, [])
+
 
   return (
     <>
-      <Navbar userData={{displayName,photoURL}}  handleToogle={handleToogle} handleDownloadCode={handleDownloadCode} />
+
+      <Navbar saveStuff={saveStuff} userData={{ displayName, photoURL }} handleToogle={handleToogle} handleDownloadCode={handleDownloadCode} />
       <div className="content-area">
         <div className={`editor ${!tooglePreview && "editor-width"}`}>
           <textarea cols="30" rows="10" placeholder="TITLE" value={editorTitle} onChange={handleEditorTitle}></textarea>

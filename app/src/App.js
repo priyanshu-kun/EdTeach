@@ -9,9 +9,7 @@ import { useSelector } from "react-redux"
 
 function App() {
 
-  const {user,loading} = useSelector((state) => state.auth)
-  console.log("home: ",loading)
-
+  const {user} = useSelector((state) => state.auth)
   return (
     <>
       {
