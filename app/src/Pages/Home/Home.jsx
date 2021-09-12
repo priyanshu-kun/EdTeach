@@ -8,16 +8,21 @@ import downloadContent from '../../downloadContent';
 import { userSelector, useSelector } from "react-redux"
 import showdown from "showdown"
 import firebase from "../../config/firebase.config"
+import {Switch,Route} from "react-router-dom"
+import Host from "../Host/Host"
 
 function Home(props) {
 
-  const { uid, displayName, photoURL } = useSelector((state) => state.auth.user)
+  const {uid,displayName,photoURL} = useSelector((state) => state.auth.user)
   const [editorTitle, setEditorTitle] = useState("")
   const [editorContent, setEditorContent] = useState("")
   const [setContent, setSetContent] = useState("Nothing to preview🧐")
   const [tooglePreview, setTooglePreview] = useState(true)
   const [saveState, setSaveState] = useState(true)
   const converter = new showdown.Converter()
+
+  // console.log("Github User: ",user)
+
   function handleEditorTitle(e) {
     setEditorTitle(e.target.value)
   }
@@ -60,6 +65,7 @@ function Home(props) {
   }
 
   function saveStuff() {
+    return alert("This feature isn't avaliable yet 😩, please stay tuned")
     // if (!editorTitle || !editorContent) {
     //   return;
     // }
@@ -112,8 +118,10 @@ function Home(props) {
 
   return (
     <>
-
-      <Navbar saveStuff={saveStuff} userData={{ displayName, photoURL }} handleToogle={handleToogle} handleDownloadCode={handleDownloadCode} />
+      <Switch>
+        <Route exact path="/">
+          <>
+          <Navbar saveStuff={saveStuff} userData={{ displayName, photoURL }} handleToogle={handleToogle} handleDownloadCode={handleDownloadCode} />
       <div className="content-area">
         <div className={`editor ${!tooglePreview && "editor-width"}`}>
           <textarea cols="30" rows="10" placeholder="TITLE" value={editorTitle} onChange={handleEditorTitle}></textarea>
@@ -146,6 +154,12 @@ function Home(props) {
           )
         }
       </div>
+          </>
+        </Route>
+        <Route path="/Host">
+          <Host />
+        </Route>
+      </Switch>
     </>
   );
 }
