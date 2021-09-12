@@ -150,8 +150,10 @@ body {
 /* style for markdown */
 blockquote {
   background: rgb(89, 39, 233,0.1);
-  padding: 10px;
+  padding: 10px 30px;
   border-radius: 6px;
+  font-size: 0.8rem;
+  line-height: 1.2rem;
 }
 
 code {

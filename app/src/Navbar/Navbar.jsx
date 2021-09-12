@@ -8,7 +8,7 @@ import "./Navbar.css"
 import firebase from "../config/firebase.config";
 
 const auth = firebase.auth();
-function Navbar({ handleToogle, handleDownloadCode, userData: { displayName, photoURL },saveStuff }) {
+function Navbar({editorTitle,editorContent,saveState, handleToogle, handleDownloadCode, userData: { displayName, photoURL },saveStuff }) {
 
   const [dropDown,setDropDown] = useState(false)
 
@@ -33,19 +33,24 @@ function Navbar({ handleToogle, handleDownloadCode, userData: { displayName, pho
 
         </div>
         <p className="profile-name">{displayName}</p>
-      </div>
+      </div> 
       <div className="navigation">
         <button onClick={handleDownloadCode}><FiDownload style={{ color: "#fff", fontSize: "1.3rem" }} /></button>
         <button onClick={() => {
           saveStuff()
-        }} ><AiFillCloud className="unstoredData" style={{ color: "#fff", fontSize: "1.5rem" }} /></button>
+        }} ><AiFillCloud className={saveState ? "unsaved": "saved"}  style={{ color: "#fff", fontSize: "1.5rem", transition: "all 0.2s ease" }} /></button>
         <div className="navigation-btns">
           <button onClick={handleToogle}>TOOGLE PREVIEW</button>
           <div className="dropdown-background">
           <FaChevronDown onClick={handleDropDown} style={{ fontSize: "1.2rem",color: "#fff", cursor: "pointer" }} />
           <div className={`dropdown ${!dropDown && "hideDropdown"}`}>
           <a style={{textDecoration: "none",color: "#fff"}} target="_blank" href="https://daringfireball.net/projects/markdown/basics"><GiTorch style={{fontSize: "1.2rem", marginRight: "5px"}} /> GUIDE</a>
-          <Link style={{textDecoration: "none",color: "#fff"}} target="_blank" to="/Host"><FaCloudversify style={{fontSize: "1.2rem", marginRight: "5px"}} /> HOST</Link>
+          <Link onClick={(e) => {
+            if(!editorContent || !editorTitle) {
+              e.preventDefault()
+              return alert("Before continue any further first put some content in your editor:D")
+            }
+          }} style={{textDecoration: "none",color: "#fff"}} target="_blank" to="/Host"><FaCloudversify style={{fontSize: "1.2rem", marginRight: "5px"}} /> HOST</Link>
           <SignOut />
           </div>
           </div>
