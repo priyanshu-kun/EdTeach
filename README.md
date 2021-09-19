@@ -1,5 +1,7 @@
 # App for teachers
 
+hosting site on github doesn't working I have to fix some bugs that are floating around here and there
+
 work in progress...
 
 ### see this live here: https://goofy-easley-b26824.netlify.app/
