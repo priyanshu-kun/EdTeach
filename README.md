@@ -4,4 +4,4 @@ hosting site on github doesn't working I have to fix some bugs that are floating
 
 work in progress...
 
-### see this live here: https://goofy-easley-b26824.netlify.app/
+### see this live here: https://keen-cray-7c402c.netlify.app/
